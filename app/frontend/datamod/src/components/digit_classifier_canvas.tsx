@@ -96,8 +96,20 @@ class DigitCanvas extends React.Component {
         <div>
           <canvas
             ref="canvas"
-            style={{touchAction:"none"}}
-            width={640} height={425}/>
+            style={{touchAction:"none", border:'2px solid green'}}
+            width={640} height={425}/
+            // function getFetcher(){
+            //     return fetch(
+            //         'http://127.0.0.1:5000/', {
+            //             method:'GET',
+            //             headers:{
+            //                 'Accept':'application/json',
+            //                 'Content-Type':'application/json'
+            //             }
+            //         }
+            //     ).then((r) =>{return r.json()}).catch(e => console.log(e));
+            // }
+            >
         </div>
       )
     }

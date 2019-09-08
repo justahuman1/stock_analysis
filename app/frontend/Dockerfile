@@ -1,6 +1,6 @@
 FROM node:12
 RUN mkdir /src
-ADD /app/frontend/datamod /src/app
-WORKDIR  /src/app
-RUN yarn install
+ADD /datamod /src/datamod
+WORKDIR  /src/datamod
+# RUN yarn install
 EXPOSE 3000
