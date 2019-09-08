@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from util.reddit_crawl import RedditCrawler
+from models.stock_sentiments.util.reddit_crawl import RedditCrawler
 import json
 
 #/  CLI INIT
