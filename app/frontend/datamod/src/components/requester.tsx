@@ -41,10 +41,6 @@ const ServerButton: React.FC = () => {
         <div style={{margin:'15px'}}>
             <CredForm />
         </div>
-{/*
-        <button onClick={()=>startOper()}>
-            Run Scraper!
-        </button> */}
       </div>
     );
 }

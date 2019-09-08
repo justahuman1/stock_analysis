@@ -1,4 +1,7 @@
 import React from 'react';
+// import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 
 const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
     canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
@@ -81,14 +84,62 @@ const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
     }
 };
 
+const runModel = () => {
+    const modelURL = 'http://127.0.0.1:5000/';
+
+    // const predict = async (modelURL) => {
+    //     if (!model) model = await tf.loadModel(modelURL);
+    //     const files = fileInput.files;const predict = async (modelURL) => {
+    //         if (!model) model = await tf.loadModel(modelURL);
+    //         const files = fileInput.files;
+
+    //         [...files].map(async (img) => {
+    //             const data = new FormData();
+    //             data.append('file', img);
+
+    //             const processedImage = await fetch("/api/prepare",
+    //                 {
+    //                     method: 'POST',
+    //                     body: data
+    //                 }).then(response => {
+    //                     return response.json();
+    //                 }).then(result => {
+    //                     return tf.tensor2d(result['image']);
+    //                 });
+
+    //         })
+    //     };
+    //     [...files].map(async (img) => {
+    //         const data = new FormData();
+    //         data.append('file', img);
+
+    //         const processedImage = await fetch("/api/prepare",
+    //             {
+    //                 method: 'POST',
+    //                 body: data
+    //             }).then(response => {
+    //                 return response.json();
+    //             }).then(result => {
+    //                 return tf.tensor2d(result['image']);
+    //             });
+
+    //     })
+    // };
+};
+
 class DigitCanvas extends React.Component {
+    // state = {
+    //     canvas: this.refs.canvas
+    // }
     componentDidMount() {
       const canvas: any = this.refs.canvas;
-      const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
+      const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
       ctx.fillStyle = "#FF0000";
       createGestures(canvas, ctx);
     }
-    clearCanvas(canvas: any, ctx: CanvasRenderingContext2D){
+    clearCanvas(){
+        const canvas: any = this.refs.canvas;
+        const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     render() {
@@ -97,7 +148,7 @@ class DigitCanvas extends React.Component {
           <canvas
             ref="canvas"
             style={{touchAction:"none", border:'2px solid green'}}
-            width={640} height={425}/
+            width={640} height={425}
             // function getFetcher(){
             //     return fetch(
             //         'http://127.0.0.1:5000/', {
@@ -109,7 +160,19 @@ class DigitCanvas extends React.Component {
             //         }
             //     ).then((r) =>{return r.json()}).catch(e => console.log(e));
             // }
-            >
+            />
+            <div>
+                <Button
+                variant="contained"
+                color="secondary" style={{margin:'5px'}}
+                onClick={()=>this.clearCanvas()}
+                >
+                    Clear
+                </Button>
+                <Button variant="contained" color="primary" style={{margin:'5px'}}>
+                    Predict
+                </Button>
+            </div>
         </div>
       )
     }
