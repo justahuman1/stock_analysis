@@ -1,6 +1,7 @@
 import React from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Modeler from './requests/modelRequests';
 
 
 const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
@@ -85,8 +86,10 @@ const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
 };
 
 const runModel = () => {
-    const modelURL = 'http://127.0.0.1:5000/';
-
+    // const modelURL = 'http://127.0.0.1:5000/';
+    console.log(
+        Modeler.loader()
+    );
     // const predict = async (modelURL) => {
     //     if (!model) model = await tf.loadModel(modelURL);
     //     const files = fileInput.files;const predict = async (modelURL) => {
@@ -169,7 +172,11 @@ class DigitCanvas extends React.Component {
                 >
                     Clear
                 </Button>
-                <Button variant="contained" color="primary" style={{margin:'5px'}}>
+                <Button
+                variant="contained"
+                color="primary" style={{margin:'5px'}}
+                onClick={()=>runModel()}
+                >
                     Predict
                 </Button>
             </div>
