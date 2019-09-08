@@ -3,6 +3,6 @@ function x(){
 }
 
 function b(x){
-    return x/2;
+    return x>>2;
 }
 
