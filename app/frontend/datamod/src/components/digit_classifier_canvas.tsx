@@ -96,6 +96,7 @@ class DigitCanvas extends React.Component {
         <div>
           <canvas
             ref="canvas"
+            style={{touchAction:"none"}}
             width={640} height={425}/>
         </div>
       )
