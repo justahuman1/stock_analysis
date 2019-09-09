@@ -85,11 +85,11 @@ const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
     }
 };
 
-const runModel = () => {
+const runModel = async () => {
     // const modelURL = 'http://127.0.0.1:5000/';
-    console.log(
-        Modeler.loader()
-    );
+
+    const model = await Modeler.loader();
+    console.log(model);
     // const predict = async (modelURL) => {
     //     if (!model) model = await tf.loadModel(modelURL);
     //     const files = fileInput.files;const predict = async (modelURL) => {
