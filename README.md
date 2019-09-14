@@ -11,7 +11,6 @@
     1) Database & History Backprop
     2) Tensorflow Serving for model CI
 
-
-umber Predictor
+Number Classifer
 
 <img height=500 src="https://i.imgur.com/cPAI3mM.png">
