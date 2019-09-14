@@ -1,7 +1,7 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modeler from './requests/modelRequests';
+import { any } from '@tensorflow/tfjs';
 
 
 const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
@@ -15,7 +15,8 @@ const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
 
     ctx.lineCap = "round";
     ctx.lineWidth = 12;
-    ctx.strokeStyle = `rgba(0,0,0,1)`;
+    ctx.strokeStyle = `#FFFFFF`;
+
 
     let touchX: any,touchY: any;
     let mouseX: number,mouseY: number,mouseDown: number = 0;
@@ -85,65 +86,42 @@ const createGestures = (canvas: any, ctx: CanvasRenderingContext2D) => {
     }
 };
 
-const runModel = async () => {
-    // const modelURL = 'http://127.0.0.1:5000/';
-
+const runModel = async (canva_context: CanvasRenderingContext2D, canvas: any): Promise<number> => {
     const model = await Modeler.loader();
-    console.log(model);
-    // const predict = async (modelURL) => {
-    //     if (!model) model = await tf.loadModel(modelURL);
-    //     const files = fileInput.files;const predict = async (modelURL) => {
-    //         if (!model) model = await tf.loadModel(modelURL);
-    //         const files = fileInput.files;
-
-    //         [...files].map(async (img) => {
-    //             const data = new FormData();
-    //             data.append('file', img);
-
-    //             const processedImage = await fetch("/api/prepare",
-    //                 {
-    //                     method: 'POST',
-    //                     body: data
-    //                 }).then(response => {
-    //                     return response.json();
-    //                 }).then(result => {
-    //                     return tf.tensor2d(result['image']);
-    //                 });
-
-    //         })
-    //     };
-    //     [...files].map(async (img) => {
-    //         const data = new FormData();
-    //         data.append('file', img);
-
-    //         const processedImage = await fetch("/api/prepare",
-    //             {
-    //                 method: 'POST',
-    //                 body: data
-    //             }).then(response => {
-    //                 return response.json();
-    //             }).then(result => {
-    //                 return tf.tensor2d(result['image']);
-    //             });
-
-    //     })
-    // };
+    const imageData = canva_context.getImageData(0,0,canvas.width, canvas.height);
+    return await Modeler.predictor(imageData, model);
 };
 
+interface State {
+    canvas ?: any;
+    prediction ?: number;
+}
+
 class DigitCanvas extends React.Component {
-    // state = {
-    //     canvas: this.refs.canvas
-    // }
+    state: State = {
+    }
     componentDidMount() {
       const canvas: any = this.refs.canvas;
       const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
-      ctx.fillStyle = "#FF0000";
+      ctx.fillStyle = "#FFFFFF";
+      this.setState({
+        ...this.state,
+        canvas: canvas,
+      });
       createGestures(canvas, ctx);
     }
     clearCanvas(){
-        const canvas: any = this.refs.canvas;
-        const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const ctx: CanvasRenderingContext2D = this.state.canvas.getContext("2d");
+        if (this.state.canvas)
+          ctx.clearRect(1, 1, this.state.canvas.width, this.state.canvas.height);
+    }
+    async canvasPredictor(){
+        const ctx: CanvasRenderingContext2D = this.state.canvas.getContext("2d");
+        let res: number = 0;
+        if (ctx)
+            res = await runModel(ctx, this.state.canvas);
+        this.setState({...this.state, prediction:res});
+        console.log(res);
     }
     render() {
       return(
@@ -152,18 +130,8 @@ class DigitCanvas extends React.Component {
             ref="canvas"
             style={{touchAction:"none", border:'2px solid green'}}
             width={640} height={425}
-            // function getFetcher(){
-            //     return fetch(
-            //         'http://127.0.0.1:5000/', {
-            //             method:'GET',
-            //             headers:{
-            //                 'Accept':'application/json',
-            //                 'Content-Type':'application/json'
-            //             }
-            //         }
-            //     ).then((r) =>{return r.json()}).catch(e => console.log(e));
-            // }
             />
+            <p>{this.state.prediction}</p>
             <div>
                 <Button
                 variant="contained"
@@ -175,7 +143,7 @@ class DigitCanvas extends React.Component {
                 <Button
                 variant="contained"
                 color="primary" style={{margin:'5px'}}
-                onClick={()=>runModel()}
+                onClick={()=>this.canvasPredictor()}
                 >
                     Predict
                 </Button>
