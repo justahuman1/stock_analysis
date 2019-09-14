@@ -9,6 +9,7 @@
 ## Next Steps:
 
     1) Database & History Backprop
+    2) Tensorflow Serving for real-time model improvements
 
 
 Number Predictor
