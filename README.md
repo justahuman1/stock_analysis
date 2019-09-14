@@ -9,9 +9,9 @@
 ## Next Steps:
 
     1) Database & History Backprop
-    2) Tensorflow Serving for real-time model improvements
+    2) Tensorflow Serving for model CI
 
 
-Number Predictor
+umber Predictor
 
 <img height=500 src="https://i.imgur.com/cPAI3mM.png">
